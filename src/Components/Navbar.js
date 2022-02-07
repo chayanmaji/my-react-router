@@ -1,6 +1,9 @@
 import { NavLink } from 'react-router-dom';
+import useAuth from './Auth';
 
 const Navbar = () => {
+
+    const auth = useAuth();
 
     const navStyleLink = ({ isActive }) => {
         return isActive ? "active" : "";
@@ -12,6 +15,14 @@ const Navbar = () => {
             <NavLink className={navStyleLink} to='/about'>About</NavLink>
             <NavLink className={navStyleLink} to='/products'>Products</NavLink>
             <NavLink className={navStyleLink} to='/users'>Users</NavLink>
+            <NavLink className={navStyleLink} to='/profile'>Profile</NavLink>
+            { 
+                !auth.user && (
+                    <NavLink className={navStyleLink} to='/login'>
+                        Login
+                    </NavLink>
+                )
+            }
         </nav>
     )
 }

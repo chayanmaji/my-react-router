@@ -12,15 +12,19 @@ import FeaturedProducts from './Components/Featuredproducts';
 import Users from './Components/Users';
 import UserDetails from './Components/UserDetails';
 import Admin from './Components/Admin';
-const LazyAbout = React.lazy(()=> import('./Components/About'));
+import Profile from './Components/Profile';
+import { AuthProvider } from './Components/Auth';
+import Login from './Components/Login';
+import RequireAuth from './Components/RequireAuth';
+const LazyAbout = React.lazy(() => import('./Components/About'));
 
 function App() {
   return (
-    <>
+    <AuthProvider>
       <Navbar />
       <Routes>
         <Route path='/' element={<Home />} />
-        <Route path='about' element={ <React.Suspense fallback='Loading...'><LazyAbout/></React.Suspense> } />
+        <Route path='about' element={<React.Suspense fallback='Loading...'><LazyAbout /></React.Suspense>} />
         <Route path='order-summary' element={<OrderSummary />} />
         <Route path='products' element={<Products />}>
           <Route index element={<FeaturedProducts />} />
@@ -31,10 +35,11 @@ function App() {
           <Route path=':userId' element={<UserDetails />} />
           <Route path='admin' element={<Admin />} />
         </Route>
+        <Route path='profile' element={ <RequireAuth><Profile /></RequireAuth>} />
+        <Route path='login' element={<Login />}/>
         <Route path='*' element={<NoMatch />} />
-
       </Routes>
-    </>
+    </AuthProvider>
   );
 }
 
